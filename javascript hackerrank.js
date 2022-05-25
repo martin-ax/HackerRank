@@ -88,6 +88,65 @@ function matchingStringsWithMap(strings, queries) {
     return result;
 }
 
+function lonelyinteger(a) {
+    //
+    if (a.length === 1) return a[0];
+
+    while (a.length > 0) {
+        let value = a[0];
+        let pos = a.indexOf(value, 1);
+        //console.log('pos: ' + pos);
+        if (pos === -1) {
+            console.log(value);
+            return value;
+        } else {
+            a.shift();
+            a.splice(pos - 1, 1);
+        }
+    }
+    
+    return -1;
+}
+
+function flippingBits(n) {
+    let binary = n.toString(2);
+    //console.log(binary);
+    let result = '';
+
+    while (binary.length != 32) {
+        binary = '0' + binary;
+    }
+
+    for (let i = 0; i < 32; i++) {
+        if (binary.charAt(i) === '0') {
+            result += '1';
+        } else {
+            result += '0';
+        }
+        // Could have done below instead
+        // result += binary.charAt(i) === '0' ? '1' : '0';
+    }
+
+    console.log(parseInt(result, 2));
+    return parseInt(result, 2);
+}
+
+function diagonalDifference(arr) {
+    let size = arr[0].length;
+    let result = 0;
+    let diag1 = 0;
+    let diag2 = 0;
+    
+    for (let i = 0; i < size; i++) {
+        diag1 += arr[i][i];
+        diag2 += arr[size - i - 1][i];
+    }
+    
+    result = Math.abs(diag1 - diag2);
+    console.log(result);
+    return result;
+}
+
 function main() {
 
     const arr = [1, 2, 3, 4, 5];
@@ -102,6 +161,15 @@ function main() {
     let queries = ['aba', 'xzxb', 'ab'];
     matchingStrings(strings, queries);
     matchingStringsWithMap(strings, queries);
+
+    const a = [1, 1, 2];
+    lonelyinteger(a);
+    lonelyinteger([0, 0, 1, 3, 1]);
+
+    flippingBits(5);
+
+    const arr2 = [[11, 2, 4], [4, 5, 6], [10, 8, -12]];
+    diagonalDifference(arr2);
 
 }
 
