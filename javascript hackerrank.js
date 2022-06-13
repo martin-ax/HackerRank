@@ -222,6 +222,59 @@ function twoArrays(k, A, B) {
     return 'YES';
 }
 
+function birthday(s, d, m) {
+    // This is the nested loop approach O(n * m)
+    // It's faster to do sliding window technique
+    let length = s.length;
+    
+    if (length < m) return 0;
+    
+    let solutions = 0;
+    let currentSum = 0;
+    
+    for (let i = 0; i < s.length; i++) {
+        for (let j = 0; j < m; j++) {
+            currentSum += s[i + j];
+        }
+        if (currentSum === d) {
+            solutions++;
+        }
+        currentSum = 0;
+    }
+    
+    return solutions;
+}
+
+function birthdaySlidingWindow(s, d, m) {
+    let length = s.length;
+    
+    if (length < m) return 0;
+    
+    let solutions = 0;
+    let currentSum = 0;
+    let head = 0
+    
+    for (let i = 0; i < m; i++) {
+        currentSum += s[i];
+    }
+    if (currentSum === d) {
+        solutions++;
+    }
+    currentSum -= s[0];
+    head = 1;
+    
+    for (let i = m; i < length; i++) {
+        currentSum += s[i];
+        if (currentSum === d) {
+            solutions++;
+        }
+        currentSum -= s[head];
+        head++;
+    }
+    
+    return solutions;
+}
+
 function main() {
 
     const arr = [1, 2, 3, 4, 5];
@@ -250,6 +303,9 @@ function main() {
     countingSort(arr3);
 
     console.log(pangrams('We promptly judged antique ivory buckles for the next prize'));
+
+    console.log(birthday([2, 2, 1, 3, 2], 4, 2));
+    console.log(birthdaySlidingWindow([2, 2, 1, 3, 2], 4, 2));
 
 }
 
