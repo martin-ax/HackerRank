@@ -117,3 +117,61 @@ func sockMerchantWithDictionary(n: Int, ar: [Int]) -> Int {
 
     return pairs
 }
+
+func caesarCipher(s: String, k: Int) -> String {
+    // Return an encrypted string where each alphabet character is moved k times over
+
+    let length = s.count
+    var k2 = k
+    var result = ""
+    
+    if k > 26 {
+        k2 = k % 26
+    }
+    
+    for i in 0..<length {
+        let ascii = s[s.index(s.startIndex, offsetBy: i)].asciiValue!
+        var pos = 0
+        
+        switch ascii {
+            case 65...90:
+                pos = Int(ascii) + k2
+                if pos > 90 {
+                    pos = pos - 90 + 64
+                }
+            case 97...122:
+                pos = Int(ascii) + k2
+                if pos > 122 {
+                    pos = pos - 122 + 96
+                }
+            default:
+                pos = Int(ascii)
+        }
+        
+        result += String(UnicodeScalar(UInt8(pos)))
+    }
+
+    return result
+}
+
+func maxMin(k: Int, arr: [Int]) -> Int {
+    // Find the smallest difference in a group of k elements
+    // So you have to take any k elements from the arr and find the smallest difference
+    //   where the biggest - smallest numbers in that subgroup is the least difference
+    
+    let length = arr.count
+    var sortedArr = arr
+    sortedArr.sort()
+    var difference = sortedArr[length - 1]
+    
+    for i in 0...length - k {
+        let cMin = sortedArr[i]
+        let cMax = sortedArr[i + k - 1]
+        let newDiff = cMax - cMin
+        if newDiff < difference {
+            difference = newDiff
+        }
+    }
+    
+    return difference
+}
