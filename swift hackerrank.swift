@@ -328,6 +328,7 @@ func counterGame(n: Int) -> String {
 
 func palindromeIndex(s: String) -> Int {
     // Check if String is a palindrome by removing one letter and return position
+        // failed 2 test cases
 
     var low = 0
     var high = s.count - 1
@@ -380,25 +381,29 @@ func getTotalX(a: [Int], b: [Int]) -> Int {
     var num = a[a.count - 1]
     //var temp: [Int] = []
     
-    for value in a {
-        if num % value != 0 {
-            num = b[0]
-            break
-        }
-    }
-    
+    var check = true
     while num <= b[0] {
-        for i in 0..<b.count {
-            if b[i] % num != 0 {
+        check = true
+        for value in a {
+            if num % value != 0 {
+                num += a[a.count - 1]
+                check = false
                 break
             }
+        }
+        if check {
+            for i in 0..<b.count {
+                if b[i] % num != 0 {
+                    break
+                }
             
-            if i + 1 == b.count {
-                result += 1
-                //temp.append(num)
+                if i + 1 == b.count {
+                    result += 1
+                    //temp.append(num)
+                }
             }
         }
-        num += num
+        num += a[a.count - 1]
     }
     
     //print(temp)
