@@ -33,6 +33,26 @@ def plusMinus(arr):
         zeroesRatio += '0'
     print(zeroesRatio[0:7])
 	
+def findZigZagSequence(a, n):
+    # Solution provided by hackerrank, just needed to update in 3 locations
+    # first half of the array should be in increasing order and the remaining half in decreasing order
+    a.sort()
+    mid = int((n + 1)/2) - 1
+    a[mid], a[n-1] = a[n-1], a[mid]
+
+    st = mid + 1
+    ed = n - 2
+    while(st <= ed):
+        a[st], a[ed] = a[ed], a[st]
+        st = st + 1
+        ed = ed - 1
+
+    for i in range (n):
+        if i == n-1:
+            print(a[i])
+        else:
+            print(a[i], end = ' ')
+    return
 
 if __name__ == "__main__":
 	arr = [-4, 3, -9, 0, 4, 1]

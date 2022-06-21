@@ -175,3 +175,198 @@ func maxMin(k: Int, arr: [Int]) -> Int {
     
     return difference
 }
+
+func dynamicArray(n: Int, queries: [[Int]]) -> [Int] {
+    // Some strange question where they give you pretty much all the steps
+    
+    var lastAnswer = 0
+    var arr: [[Int]] = []
+    var answers: [Int] = []
+    
+    for _ in 0...n {
+        arr.append([])
+        //print(arr)
+    }
+    
+    for i in 0..<queries.count {
+        if queries[i][0] == 1 {
+            let idx = ((queries[i][1] ^ lastAnswer) % n)
+            arr[idx].append(queries[i][2])
+        } else { //it's 2
+            let idx = ((queries[i][1] ^ lastAnswer) % n)
+            lastAnswer = arr[idx][queries[i][2] % arr[idx].count]
+            answers.append(lastAnswer)
+        }
+    }
+    
+    return answers
+}
+
+func gridChallenge(grid: [String]) -> String {
+    // Given a grid of Strings, sort each row (string in array) and check if each character per column is in abc order
+
+    let n = grid.count
+    let m = grid[0].count
+    var newArr: [String] = []
+    
+    for i in 0..<n {
+        var arr = Array(grid[i])
+        arr.sort()
+        newArr.append(String(arr))
+    }
+    
+    for i in 0..<m {
+        var pastAscii = 0
+        for j in 0..<n {
+            let tempString = newArr[j]
+            let ascii = Int(tempString[tempString.index(tempString.startIndex, offsetBy: i)].asciiValue!)
+            
+            if ascii >= pastAscii {
+                pastAscii = ascii
+            } else {
+                return "NO"
+            }
+        }
+    }
+    
+    return "YES"
+}
+
+func balancedSums(arr: [Int]) -> String {
+    // Given an array of Integers, return YES or NO if both sides of the array add up to the same value from an i'th position not including the i'th value
+        
+    let length = arr.count
+    var leftSum = 0
+    var rightSum = 0
+    
+    for i in 1..<length {
+        rightSum += arr[i]
+    }
+    if leftSum == rightSum { return "YES" }
+    
+    for i in 1..<length {        
+        leftSum += arr[i - 1]
+        rightSum -= arr[i]
+        
+        if leftSum == rightSum { return "YES" }
+    }
+    
+    return "NO"
+
+}
+
+func superDigit(n: String, k: Int) -> Int {
+    // Someone else's recursive solution, I transformed to Swift
+    // Still not fast enough for some of the questions
+
+    if n.count == 1 && k == 1 { return Int(n)! }
+    var value = 0
+    for i in 0..<n.count {
+        value += n[n.index(n.startIndex, offsetBy: i)].wholeNumberValue!
+    }
+    value *= k
+    return superDigit(n: String(value), k: 1) 
+
+    // My solution that didn't use recursion
+    /*
+    var p = n
+        
+    if p.count > 1  && k != 1{
+        var value: Int = 0
+        for i in 0..<p.count {
+            value += p[p.index(p.startIndex, offsetBy: i)].wholeNumberValue!
+        }
+        value *= k
+        p = String(value)
+    }
+    
+    while p.count > 1 {
+        var value: Int = 0
+        for i in 0..<p.count {
+            value += p[p.index(p.startIndex, offsetBy: i)].wholeNumberValue!
+        }
+        p = String(value)
+    }
+    
+    return Int(p)!
+    */
+}
+
+func counterGame(n: Int) -> String {
+    // Solution using bits, below is overcomplicated, don't know how to simplify
+    
+    if n == 1 { return "Richard" }
+    if n == 2 { return "Louise" }
+    
+    var current = String(n, radix: 2)
+    var num = n
+    var turn = 0
+    
+    while num > 2 {
+        if (num & (num - 1)) == 0 {
+            num /= 2
+            turn += 1
+        } else {
+            let mySubstring = current.suffix(current.count - 1)
+            let pos = Array(String(mySubstring)).firstIndex(of: "1")!
+            current = String(current.suffix(current.count - 1 - pos))
+            
+            num = Int(current, radix: 2)!
+            turn += 1
+        }
+    }
+    
+    if num == 2 { turn += 1 }
+    
+    if turn % 2 == 0 {
+        return "Richard"
+    } else {
+        return "Louise"
+    }
+    
+}
+
+func palindromeIndex(s: String) -> Int {
+    // Check if String is a palindrome by removing one letter and return position
+
+    var low = 0
+    var high = s.count - 1
+    let arr = Array(s)
+    
+    while low < high {
+        if arr[low] == arr[high] {
+            low += 1
+            high -= 1
+        } else {
+            if arr[low + 1] == arr[high] {
+                let result = low
+                low += 1
+                while low < high {
+                    if arr[low] == arr[high] {
+                        low += 1
+                        high -= 1
+                    } else {
+                        return -1
+                    }
+                }
+                return result
+            } else if arr[low] == arr[high - 1] {
+                let result = high
+                high -= 1
+                while low < high {
+                    if arr[low] == arr[high] {
+                        low += 1
+                        high -= 1
+                    } else {
+                        return -1
+                    }
+                }
+                return result
+            } else {
+                return -1
+            }
+        }
+    }
+    
+    return -1
+}
