@@ -370,3 +370,37 @@ func palindromeIndex(s: String) -> Int {
     
     return -1
 }
+
+func getTotalX(a: [Int], b: [Int]) -> Int {
+    // Below has to be true to add as potential results
+    // # / a == 0
+    // b / # == 0
+    
+    var result = 0
+    var num = a[a.count - 1]
+    //var temp: [Int] = []
+    
+    for value in a {
+        if num % value != 0 {
+            num = b[0]
+            break
+        }
+    }
+    
+    while num <= b[0] {
+        for i in 0..<b.count {
+            if b[i] % num != 0 {
+                break
+            }
+            
+            if i + 1 == b.count {
+                result += 1
+                //temp.append(num)
+            }
+        }
+        num += num
+    }
+    
+    //print(temp)
+    return result
+}
