@@ -328,7 +328,7 @@ func counterGame(n: Int) -> String {
 
 func palindromeIndex(s: String) -> Int {
     // Check if String is a palindrome by removing one letter and return position
-        // failed 2 test cases
+        // failed 2 test cases, needs work
 
     var low = 0
     var high = s.count - 1
@@ -407,5 +407,105 @@ func getTotalX(a: [Int], b: [Int]) -> Int {
     }
     
     //print(temp)
+    return result
+}
+
+func anagram(s: String) -> Int {
+    // How many changes until the first half and second half of String s are anagrams of each other
+
+    if s.count % 2 != 0 { return -1 }
+    
+    var changes = 0
+    var arr1 = Array(s.prefix(s.count / 2))
+    var arr2 = Array(s.suffix(s.count / 2))
+    arr1.sort()
+    arr2.sort()
+    
+    for i in 0..<arr1.count {
+        if arr2.contains(arr1[i]) {
+            arr2.remove(at: arr2.firstIndex(of: arr1[i])!)
+        } else {
+            changes += 1
+        }
+    }
+    
+    return changes
+    
+}
+
+func bomberMan(n: Int, grid: [String]) -> [String] {
+    // Below is very inefficent
+    
+    if n == 1 { return grid }
+    
+        var arrayGrid: [[Int]] = []
+    
+    for j in 0..<grid.count {
+        let sequence = grid[j]
+        arrayGrid.append([])
+        for k in 0..<grid[0].count {
+            let charAt = sequence[sequence.index(sequence.startIndex, offsetBy: k)]
+            if charAt == "." {
+                arrayGrid[j].append(-1)
+            } else {
+                arrayGrid[j].append(1)
+            }
+        }
+    }
+    
+    //print(arrayGrid)
+    
+    for _ in 2...n {
+        for j in 0..<arrayGrid.count {
+            for k in 0..<arrayGrid[0].count {
+                let value = arrayGrid[j][k] + 1
+                if value < 3 {
+                    arrayGrid[j][k] = value
+                } else {
+                    arrayGrid[j][k] = -1
+                    let toLeft = k - 1
+                    let toRight = k + 1
+                    let toUp = j - 1
+                    let toDown = j + 1
+                    
+                    if toLeft >= 0 {
+                        arrayGrid[j][toLeft] = -1
+                    }
+                    if toUp >= 0 {
+                        arrayGrid[toUp][k] = -1
+                    }
+                    
+                    if toRight < arrayGrid[j].count {
+                        if arrayGrid[j][toRight] != 2 {
+                            arrayGrid[j][toRight] = -2
+                        }
+                    }
+                    if toDown < arrayGrid.count {
+                        if arrayGrid[toDown][k] != 2 {
+                            arrayGrid[toDown][k] = -2
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    print(arrayGrid)
+    
+    var result: [String] = []
+    
+    for j in 0..<arrayGrid.count {
+        var resultString = ""
+        for k in 0..<arrayGrid[j].count {
+            if arrayGrid[j][k] == -1 {
+                resultString += "."
+            } else {
+                resultString += "O"
+            }
+        }
+        result.append(resultString)
+    }
+    
+    print(result)
     return result
 }
