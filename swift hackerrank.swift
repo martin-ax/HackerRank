@@ -434,7 +434,7 @@ func anagram(s: String) -> Int {
 }
 
 func bomberMan(n: Int, grid: [String]) -> [String] {
-    // Below is very inefficent
+    // Below is my solution, but very inefficent
     
     if n == 1 { return grid }
     
@@ -508,4 +508,46 @@ func bomberMan(n: Int, grid: [String]) -> [String] {
     
     print(result)
     return result
+}
+
+func reverse(llist: SinglyLinkedListNode?) -> SinglyLinkedListNode? {
+    // Reverse the LinkedList
+    // This method creates a new List and copies the data across
+    /*
+    * For your reference:
+    *
+    * Is a Class
+    * SinglyLinkedListNode {
+    *     data: Int
+    *     next: SinglyLinkedListNode?
+    * }
+    *
+    */
+    
+    if llist == nil {
+        return llist
+    }
+    
+    var newList = SinglyLinkedListNode(nodeData: 0)
+    var pointer = llist
+    var arrayValues: [Int] = []
+    
+    while pointer != nil {
+        arrayValues.append(pointer!.data)
+        pointer = pointer?.next
+    }
+    
+    let length = arrayValues.count
+    pointer = newList
+    pointer?.data = arrayValues[length - 1]
+    pointer?.next = nil
+    for i in 2...length {
+        pointer?.next = SinglyLinkedListNode(nodeData: 0)
+        pointer = pointer?.next
+        pointer?.data = arrayValues[length - i]
+        pointer?.next = nil
+    }
+    
+    return newList
+
 }
