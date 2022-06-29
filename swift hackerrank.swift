@@ -551,3 +551,76 @@ func reverse(llist: SinglyLinkedListNode?) -> SinglyLinkedListNode? {
     return newList
 
 }
+
+func reverse(llist: DoublyLinkedListNode?) -> DoublyLinkedListNode? {
+    // Reverse the DoublyLinkedList
+    // It said to do it in place, but I couldn't get the reference to stop setting itself to nil
+    // Pretty much followed same approach as the SinglyLinkedList but this one failed one test
+    /*
+    * For your reference:
+    *
+    * DoublyLinkedListNode {
+    *     data: Int
+    *     next: DoublyLinkedListNode?
+    *     prev: DoublyLinkedListNode?
+    * }
+    *
+    */
+    
+    if llist == nil || llist?.next == nil { return llist }
+    
+    var newList = DoublyLinkedListNode(nodeData: 0)
+    var pointer = llist
+    var arrayValues: [Int] = []
+    
+    while pointer != nil {
+        arrayValues.append(pointer!.data)
+        pointer = pointer?.next
+    }
+    
+    let length = arrayValues.count
+    pointer = newList
+    pointer?.data = arrayValues[length - 1]
+    pointer?.next = nil
+    pointer?.prev = nil
+    for i in 2...length {
+        let temp = pointer
+        pointer?.next = DoublyLinkedListNode(nodeData: 0)
+        pointer = pointer?.next
+        pointer?.data = arrayValues[length - i]
+        pointer?.next = nil
+        pointer?.prev = temp
+    }
+    
+    return newList
+    
+    /*
+    // Couldn't get this one to work
+    if llist == nil { return llist }
+    
+    var listHeader = llist
+    var pointer = llist
+    
+    while pointer != nil {
+        let tempP = pointer?.prev
+        let tempN = pointer?.next
+        pointer?.prev = tempN // these two lines cause issue
+        pointer?.next = tempP //
+        pointer = pointer?.prev
+        
+        // maybe below was issue
+        //print(pointer)
+        if let temp = pointer?.next {
+            if temp.next == nil {
+                listHeader = pointer?.next
+                print("end")
+            } else {
+                print(pointer?.data)
+            }
+            
+        }
+    }
+    
+    return listHeader
+    */
+}
