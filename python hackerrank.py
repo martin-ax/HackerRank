@@ -54,6 +54,38 @@ def findZigZagSequence(a, n):
             print(a[i], end = ' ')
     return
 
+def mergeLists(head1, head2):
+    # Merge two sorted LinkedLists into another sorted LinkedList
+    newList = SinglyLinkedListNode(0)
+    if head1.data <= head2.data:
+        newList = SinglyLinkedListNode(head1.data)
+        head1 = head1.next
+    else:
+        newList = SinglyLinkedListNode(head2.data)
+        head2 = head2.next
+        
+    pointer = newList
+    while head1 is not None or head2 is not None:
+        if head1 is not None and head2 is not None:
+            if head1.data <= head2.data:
+                pointer.next = SinglyLinkedListNode(head1.data)
+                pointer = pointer.next
+                head1 = head1.next
+            else:
+                pointer.next = SinglyLinkedListNode(head2.data)
+                pointer = pointer.next
+                head2 = head2.next
+        elif head1 is not None:
+            pointer.next = SinglyLinkedListNode(head1.data)
+            pointer = pointer.next
+            head1 = head1.next
+        else:
+            pointer.next = SinglyLinkedListNode(head2.data)
+            pointer = pointer.next
+            head2 = head2.next
+                
+    return newList
+
 if __name__ == "__main__":
 	arr = [-4, 3, -9, 0, 4, 1]
 	plusMinus(arr)

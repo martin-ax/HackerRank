@@ -624,3 +624,28 @@ func reverse(llist: DoublyLinkedListNode?) -> DoublyLinkedListNode? {
     return listHeader
     */
 }
+
+func insertNodeAtPosition(llist: SinglyLinkedListNode?, data: Int, position: Int) -> SinglyLinkedListNode? {
+    // Insert Node at given Position
+
+    var newNode = SinglyLinkedListNode(nodeData: data)
+    
+    if position == 0 {
+        newNode.next = llist
+        return newNode
+    }
+    
+    var pointer = llist
+    
+    for i in 1...position {
+        if i == position {
+            var temp = pointer?.next
+            pointer?.next = newNode
+            newNode.next = temp
+        } else {
+            pointer = pointer?.next
+        }
+    }
+    
+    return llist
+}
