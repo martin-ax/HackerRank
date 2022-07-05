@@ -649,3 +649,107 @@ func insertNodeAtPosition(llist: SinglyLinkedListNode?, data: Int, position: Int
     
     return llist
 }
+
+func icecreamParlor(m: Int, arr: [Int]) -> [Int] {
+    // Find two values in the array that add up to m
+
+    // O(n)? second attempt
+    var values: [Int: Int] = [:]
+    let length = arr.count
+    
+    for i in 0..<length {
+        var diff = m - arr[i]
+        if let value = values[diff] {
+            return [value, i + 1]
+        } else {
+            values[arr[i]] = i + 1
+        }
+    }
+    
+    return [0,0]
+    
+    // O(n^2) first attempt
+    var result = [0, 0]
+    var flavor1 = 0
+    var flavor2 = 0
+    let length = arr.count
+    
+    for i in 0..<length {
+        flavor1 = arr[i]
+        for j in i + 1..<length {
+            flavor2 = arr[j]
+            if flavor1 + flavor2 == m {
+                result[0] = i + 1
+                result[1] = j + 1
+            }
+        }
+        if result[0] != 0 { break }
+    }
+    
+    return result
+
+}
+
+struct Queue {
+    // Problem asked to make a queue from two stacks
+    // I just made a queue struct/data type
+
+    var value: [Int] = []
+    
+    mutating func enqueue(n: Int) {
+        value.append(n)
+    }
+    
+    mutating func dequeue() {
+        if value.count != 0 {
+            value.remove(at: 0)
+        }
+    }
+    
+    func peak() -> Int{
+        if value.count != 0 {
+            print(value[0])
+            return value[0]
+        }
+        return 0
+    }
+}
+
+func isBalanced(s: String) -> String {
+    // Check if the string is balanced
+    
+    var stack: [Character] = []
+    
+    for char in s {
+        if char == "(" || char == "[" || char == "{" {
+            stack.append(char)
+        } else {
+            if char == ")" {
+                if stack.last == "(" {
+                    stack.removeLast()
+                } else {
+                    return "NO"
+                }
+            } else if char == "]" {
+                if stack.last == "[" {
+                    stack.removeLast()
+                } else {
+                    return "NO"
+                }
+            } else {
+                if stack.last == "{" {
+                    stack.removeLast()
+                } else {
+                    return "NO"
+                }
+            }
+        }
+    }
+    
+    if stack.count == 0 {
+        return "YES"
+    } else {
+        return "NO"
+    }
+    
+}
