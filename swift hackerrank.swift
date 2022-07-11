@@ -753,3 +753,77 @@ func isBalanced(s: String) -> String {
     }
     
 }
+
+func waiter(number: [Int], q: Int) -> [Int] {
+    // Hard to explain, check hackerrank for description
+    // Uses below function nthPrimeNumber(n: Int)
+    
+    var answers: [Int] = []
+    var A = number
+    let primes: [Int] = nthPrimeNumber(n: q)
+    
+    for i in 1...q {
+        var A2: [Int] = []
+        var B: [Int] = []
+        
+        for _ in 0..<A.count {
+            if let currentNum = A.last {
+                if currentNum % primes[i - 1] == 0 {
+                    B.append(A.removeLast())
+                } else {
+                    A2.append(A.removeLast())
+                }
+            }
+        }
+        
+        // for _ in 0..<B.count {
+        //     answers.append(B.removeLast())
+        // }
+        B.reverse()
+        answers.append(contentsOf: B)
+        
+        A = A2
+        
+    }
+    
+    // for _ in 0..<A.count {
+    //     answers.append(A.removeLast())
+    // }
+    A.reverse()
+    answers.append(contentsOf: A)
+    
+    return answers
+
+}
+
+func nthPrimeNumber(n: Int) -> [Int] {
+    // Found this online, edited to return list of prime numbers
+    var prime: Int = 2
+    var divisor: Int
+    var isPrime: Bool
+    var counter = 0
+    var results: [Int] = []
+    while counter < n
+    {
+        isPrime = true;
+        divisor = 2
+        while divisor < prime
+        {
+            if ((prime % divisor) == 0 )
+            {
+                isPrime = false
+            }
+            
+            divisor += 1
+        }
+        if (isPrime)
+        {
+            counter += 1
+            results.append(prime)
+        }
+        
+        prime += 1
+    }
+
+    return results
+}
