@@ -827,3 +827,41 @@ func nthPrimeNumber(n: Int) -> [Int] {
 
     return results
 }
+
+func equalStacks(h1: [Int], h2: [Int], h3: [Int]) -> Int {
+    // Each array/stack has a cylindar of some height, make the three stacks have equal height
+    
+    var height1 = 0
+    var height2 = 0
+    var height3 = 0
+    
+    for value in h1 {
+        height1 += value
+    }
+    for value in h2 {
+        height2 += value
+    }
+    for value in h3 {
+        height3 += value
+    }
+    
+    if height1 == height2 && height2 == height3 {
+        return height1
+    }
+    
+    var s1 = h1
+    var s2 = h2
+    var s3 = h3
+    
+    while height1 != height2 || height2 != height3 {
+        if height1 >= height2 && height1 >= height3 {
+            height1 -= s1.removeFirst()
+        } else if height2 >= height1 && height2 >= height3 {
+            height2 -= s2.removeFirst()
+        } else {
+            height3 -= s3.removeFirst()
+        }
+    }
+
+    return height1
+}
